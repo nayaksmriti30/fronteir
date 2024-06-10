@@ -1,38 +1,319 @@
-.App {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+body {
+  font-family: "Manrope", sans-serif;
+}
+
+.bg-img {
+  background-image: url("./../public/banner.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.brightness-50 {
+  --tw-brightness: brightness(.3);
+
+}
+
+.overlay {
+  position: absolute;
+  transform: skew(360deg);
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+  transition: background-color 0.3s;
+  background: linear-gradient(to bottom, black 1%, transparent 20%), linear-gradient(to right, black 1%, transparent 20%);
+  top: 0;
+
+
+  width: 99.999%;
+  height: 100%;
+}
+
+.header ul li a {
+  color: #fff;
+}
+
+.rainbow {
+  /* width: 400px;
+  height: 300px; */
+  /* clip-path: 
+  polygon(
+    0% 0%,    
+    0% 0%,    
+    calc(100% - 14px) 0%,    
+    100% 14px,   
+    100% 100%,  
+    100% 100%,  
+    14px 100%,   
+    0 40px      
+  ); */
+  padding: 4px 14px;
+  margin: auto;
+
+  display: flex;
+  align-items: center;
+  place-content: center;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+
+  --border-size: 0.1rem;
+  border: var(--border-size) solid #fff;
+
+  /* Paint an image in the border */
+  border-image: conic-gradient(from var(--angle),
+      #a5afe2 0deg 90deg,
+      #c5c9e6 90deg 180deg,
+      #83a7ea 180deg 270deg,
+      #f4f3f5 270deg 360deg) 1 stretch;
+  background: rgb(105 0 225 / var(--opacity));
+
+}
+
+/** show a warning in browers that don't support it **/
+.warning {
+  margin: 2em;
+
+  border: 1px solid #ccc;
+}
+
+.warning p {
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+/* Animate when Houdini is available */
+@supports (background: paint(houdini)) {
+  @property --opacity {
+    syntax: "<number>";
+    initial-value: 0.5;
+    inherits: false;
+  }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @keyframes opacityChange {
+    to {
+      --opacity: 1;
+    }
+  }
+
+  @keyframes rotate {
+    to {
+      --angle: 360deg;
+    }
+  }
+
+  .rainbow {
+    animation: rotate 2s linear infinite, opacityChange 3s infinite alternate;
+  }
+
+  /* Hide the warning */
+  .warning {
+    display: none;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.mainCss {
+  width: 100%;
+  height: 100vh;
+}
+
+.dotsCss {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 50px;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 20px;
+  transform: translate(0px, -40px);
+  animation: bounce 1s infinite;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translate(0px, -10px);
+  }
+
+  40% {
+    width: 0px;
+    height: 2px;
+    transform: translate(0px, 40px) scale(1.7);
+  }
+
+  100% {
+    height: 20px;
+    transform: translate(0px, -20px);
+  }
+}
+
+.loader {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 4px solid #FFF;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader::after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border-left: 4px solid #FF3D00;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* section {
+  display: flex;
+  justify-content: center;
+}
+video {
+  position: fixed;
+  z-index: 0;
+  max-width: 100%;
+}
+.scroll-dummy {
+  height: 2000px;
+  max-width: 998px;
+  padding: 20px;
+  z-index: 1;
+  font-family: sans-serif;
+}
+
+.scroll-dummy h1 {
+  font-size: 80px;
+  font-weight: 700;
+  padding: 200px 0;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.scroll-dummy p, .scroll-dummy a {
+  font-size: 20px;
+  color: #ccc;
+  line-height: 1.4;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+code {
+  font-family: monospace;
+  background: #333;
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 2px 4px;
+} */
+
+.card {
+  z-index: 99;
+  background-color: #090013;
+  position: relative;
+  /* border-bottom: 1px solid #fff;
+  border-top: 1px solid #fff; */
+ 
+}
+.card::after {
+ border: 1px solid #ccc;
+ content: "";
+ position: absolute;
+ transform: skew(180deg);
+ top: 0;
+ width: 462px;
+ left: 0;
+}
+.card::before {
+ border: 1px solid #ccc;
+ content: "";
+ position: absolute;
+ transform: skew(180deg);
+ bottom: 0;
+ width: 462px;
+ right: 0;
+}
+
+.triangle-right {
+  right: 13px;
+  top: 1px;
+  width: 2px;
+  height: 40px;
+  border-top: 0;
+  background-color: #fff;
+  position: absolute;
+  transform: skew(34deg, 7deg);
+}
+
+.triangle-left {
+  left: 13px;
+  bottom: 1px;
+  width: 2px;
+  height: 40px;
+  border-top: 0;
+  background-color: #fff;
+  position: absolute;
+  transform: skew(34deg, 7deg);
+}
+.up {
+  position: absolute;
+  border: 2px solid #fff;
+  right: 28px;
+  width: 20%;
+  top: -1px;
+}
+.down {
+  position: absolute;
+  border: 2px solid #fff;
+  left: 28px;
+  width: 20%;
+  bottom: -1px;
+}
+@media screen and (max-width: 1600px) {
+  .card::after, .card::before {
+      width: 320px;
   }
-  to {
-    transform: rotate(360deg);
+}
+@media screen and (max-width: 1300px) {
+  .card::after, .card::before {
+      width: 280px;
   }
 }
